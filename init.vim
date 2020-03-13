@@ -97,8 +97,10 @@ nnoremap <A-l> <C-w>l
 nnoremap <c-p> :FZF<CR>
 " (fzf) Start searching in command history
 nnoremap q: :History:<CR>
-" (fzf) Find the word under the cursor
+" (fzf) Find the word under the cursor either as a substring match (f) or a whole
+" word match (F)
 nnoremap <leader>f :exec "Ag ".expand('<cword>')<CR>
+nnoremap <leader>F :exec "Agw ".expand('<cword>')<CR>
  
 " (NERDTree) Open the file tree on the current file
 nnoremap <silent> <Leader>v :NERDTreeFind<CR>
@@ -141,3 +143,7 @@ colorscheme monokai
 " Config for NERDTree
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTreeVCS | wincmd l | endif " open NERDTree on vim start if no files were specified
 let NERDTreeShowHidden=1
+
+" Config for FZF
+" Add Agw command for matching whole words
+command! -bang -nargs=* Agw call fzf#vim#ag(<q-args>, '--word-regexp', <bang>0)
